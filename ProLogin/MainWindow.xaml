@@ -1,0 +1,113 @@
+﻿<Window x:Class="ProLogin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProLogin"
+        mc:Ignorable="d"
+        Title="ProLogin" Height="450" Width="800">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/ProfileListViewTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ProfileButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ButtonTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Define the Context Menu for ListViewItems -->
+            <ContextMenu x:Key="ListViewItemContextMenu">
+                <MenuItem Header="Edit" Click="EditMenuItem_Click"/>
+                <MenuItem Header="Danger Zone!" Click="DangerZoneMenuItem_Click"/>
+            </ContextMenu>
+
+            <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey=ProfileListViewItemTheme}" x:Key="ListViewItemStyle">
+                <!-- Preserve existing style settings, if any -->
+                <Setter Property="ContextMenu" Value="{StaticResource ListViewItemContextMenu}" />
+                <Setter Property="ToolTip" Value="{Binding TooltipText}"/>
+                <EventSetter Event="MouseDoubleClick" Handler="profileListViewItem_MouseDoubleClick"/>
+                <Setter Property="Foreground" Value="{Binding TextColor}"/>
+                <!-- <EventSetter Event="IsMouseDirectlyOverChanged"/>  -->
+            </Style>
+
+            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource ResourceKey=ProfileGridViewColumnHeaderTheme}">
+                <EventSetter Event="MouseDown" Handler="GridViewColumnHeader_MouseDown"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Background="#191a23" Grid.Row="1"/>
+        <Border Background="#191a23" Grid.Row="2"/>
+
+        <Grid Grid.Row="0">
+
+            <Menu Background="#292a2d" VerticalAlignment="Bottom">
+                <MenuItem Header="ProLogin" Foreground="White">
+                    <MenuItem Header="Help" Foreground="Black" Click="proLoginHelp_Click"/>
+                    <MenuItem Header="Quit" Foreground="Black" Click="proLoginQuit_Click"/>
+                </MenuItem>
+                <MenuItem Header="Edit" Foreground="White" Click="editButton_Click"/>
+                <MenuItem Header="Settings" Foreground="White" Click="settingsButton_Click"/>
+            </Menu>
+
+        </Grid>
+
+        <Grid Grid.Row="1">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="1" Grid.Column="1">
+                <RadioButton Style="{StaticResource ProfileButtonStyle}"
+                         Content="Add Profile" FontSize="12" Checked="AddProfileButton_Checked">
+                </RadioButton>
+            </Grid>
+            
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Background="#191a23" Grid.Column="0"/>
+            <Border Background="#191a23" Grid.Column="1">
+
+
+                <ListView Name="profileListView" Style="{StaticResource ProfileListViewTheme}" ItemContainerStyle="{StaticResource ListViewItemStyle}">
+
+                    <ListView.View>
+                        <GridView>
+                        </GridView>
+                    </ListView.View>
+
+                </ListView>
+
+            </Border>
+            <Border Background="#191a23" Grid.Column="2"/>
+        </Grid>
+
+    </Grid>
+    
+</Window>
